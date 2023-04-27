@@ -28,7 +28,6 @@ public class TypePostController {
     public ResponseEntity<?> create(@RequestBody String typePost) {
         try {
             TypePost typePost1 = gson.fromJson(typePost, TypePost.class);
-            System.out.println(typePost1);
             return new ResponseEntity<>(typePostService.save(typePost1), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("Create fail", HttpStatus.INTERNAL_SERVER_ERROR);
