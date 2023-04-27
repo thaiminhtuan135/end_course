@@ -2,6 +2,7 @@ package example.end_course.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,6 +29,8 @@ public class Course {
     private int price;
     private int amount_student;
     private int amount_subject;
+    @Nullable
+    private String image;
     @Column(name = "typeCourse_id", insertable = false, updatable = false)
     private int typeCourse_id;
     @ManyToOne(fetch = FetchType.LAZY)
