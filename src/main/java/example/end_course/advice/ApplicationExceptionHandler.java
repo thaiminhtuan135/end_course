@@ -2,6 +2,7 @@ package example.end_course.advice;
 
 
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
+@Validated
 public class ApplicationExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -21,12 +23,4 @@ public class ApplicationExceptionHandler {
         });
         return errorMap;
     }
-
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//    @ExceptionHandler(UserNotFoundException.class)
-//    public Map<String, String> handleBusinessException(UserNotFoundException e) {
-//        Map<String, String> errorMap = new HashMap<>();
-//        errorMap.put("errorMessage", e.getMessage());
-//        return errorMap;
-//    }
 }
