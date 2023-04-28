@@ -24,4 +24,8 @@ public class Role {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
     @JsonManagedReference
     private List<Account> accounts;
+
+    public String getName() {
+        return name;
+    }
 }

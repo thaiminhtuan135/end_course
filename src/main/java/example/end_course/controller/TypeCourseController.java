@@ -37,14 +37,14 @@ public class TypeCourseController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody @Valid String typeCourse, BindingResult result) {
-        if (result.hasErrors()) {
-
-            Map<String, String> errorMap = new HashMap<>();
-            result.getFieldErrors().forEach(error -> {
-                errorMap.put(error.getField(), error.getDefaultMessage());
-            });
-            return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
-        }
+//        if (result.hasErrors()) {
+//
+//            Map<String, String> errorMap = new HashMap<>();
+//            result.getFieldErrors().forEach(error -> {
+//                errorMap.put(error.getField(), error.getDefaultMessage());
+//            });
+//            return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
+//        }
         TypeCourse typeCourse1 = gson.fromJson(typeCourse, TypeCourse.class);
         return new ResponseEntity<>(typeCourseService.save(typeCourse1), HttpStatus.CREATED);
     }
