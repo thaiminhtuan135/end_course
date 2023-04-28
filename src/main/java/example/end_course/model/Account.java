@@ -2,6 +2,7 @@ package example.end_course.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import example.end_course.Enum.RoleCustom;
 import example.end_course.token.Token;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,7 +30,8 @@ public class Account implements UserDetails {
     private String nickName;
     private String email;
     private String password;
-
+    @Enumerated(EnumType.STRING)
+    private RoleCustom roleCustom;
     @Column(name = "role_id", insertable = false, updatable = false)
     private int role_id;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account")
@@ -55,7 +57,7 @@ public class Account implements UserDetails {
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(role.getName()));
+        return List.of(new SimpleGrantedAuthority(roleCustom.name()));
     }
 
     @Override
