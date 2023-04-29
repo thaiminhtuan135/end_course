@@ -23,7 +23,7 @@ public class TypeCourse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Size(max = 255)
+    @Size(min = 5 , message = "Name type course at least 5 characters")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "typeCourse")
     @JsonManagedReference
