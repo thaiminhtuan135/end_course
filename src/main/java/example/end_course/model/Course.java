@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -22,13 +22,16 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @NotBlank
+    @NotEmpty(message = "Name is required")
+    @Size(max = 255 , message = "Name limit 255 characters")
     private String name;
     private LocalDate time;
     private String introduce;
+    @NotEmpty(message = "Content is required")
     private String content;
     private int price;
+    @Min(value = 20, message = "The number of student must be more than 20")
+    @Max(value = 50, message = "The number of student is less than 50")
     private int amount_student;
     private int amount_subject;
     @Nullable

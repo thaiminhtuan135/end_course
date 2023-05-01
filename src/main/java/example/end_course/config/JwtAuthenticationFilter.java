@@ -1,6 +1,5 @@
 package example.end_course.config;
 
-import example.end_course.config.JwtService;
 import example.end_course.repository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -46,10 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       var isTokenValid = tokenRepository.findByToken(jwt)
               .map(t -> !t.isExpired() && !t.isRevoked())
               .orElse(false);
-      System.out.println(isTokenValid);
-      System.out.println(userDetails.getPassword());
-      System.out.println(userDetails.getUsername());
-      System.out.println(userDetails.getAuthorities());
+
       if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                 userDetails,
