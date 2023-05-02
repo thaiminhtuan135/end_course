@@ -13,4 +13,6 @@ public interface AccountService {
     void delete(int id);
 
     List<Account> getAccounts();
+
+    boolean existAccount(String email);
 }

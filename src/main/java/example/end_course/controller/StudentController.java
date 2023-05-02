@@ -8,12 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/admin/student")
+@RequestMapping("/api/v1/admin/student")
 public class StudentController {
     @Autowired
     private StudentService studentService;
@@ -26,21 +27,55 @@ public class StudentController {
     }
 
     @PostMapping("/create")
-    private ResponseEntity<?> create(@RequestBody String student) {
-        try {
-            Student student1 = gson.fromJson(student, Student.class);
-            return new ResponseEntity<>(studentService.save(student1), HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    private ResponseEntity<?> create(@RequestParam String name ,
+                                     @RequestParam LocalDate dob ,
+                                     @RequestParam String telephone ,
+                                     @RequestParam String email ,
+                                     @RequestParam String province ,
+                                     @RequestParam String district ,
+                                     @RequestParam String wards ,
+                                     @RequestParam Integer apartmentNumber ) {
+        if (studentService.checkEmailExist(email,null)) {
+            return new ResponseEntity<>("Email Taken", HttpStatus.BAD_REQUEST);
         }
+            Student student = new Student();
+            student.setName(name);
+            student.setDob(dob);
+            student.setTelephone(telephone);
+            student.setEmail(email);
+            student.setProvince(province);
+            student.setDistrict(district);
+            student.setWards(wards);
+            student.setApartmentNumber(apartmentNumber);
+
+            return new ResponseEntity<>(studentService.save(student), HttpStatus.CREATED);
+
     }
 
     @PutMapping("/{id}/edit")
-    public ResponseEntity<Student> update(@RequestBody String dataUpdate, @PathVariable Integer id) {
+    public ResponseEntity<?> update(@RequestParam String name ,
+                                          @RequestParam LocalDate dob ,
+                                          @RequestParam String telephone ,
+                                          @RequestParam String email ,
+                                          @RequestParam String province ,
+                                          @RequestParam String district ,
+                                          @RequestParam String wards ,
+                                          @RequestParam Integer apartmentNumber,
+                                          @PathVariable Integer id) {
         return studentService.getStudentById(id).map(student -> {
-            Student student1 = gson.fromJson(dataUpdate, Student.class);
-            student1.setId(student.getId());
-            return new ResponseEntity<>(studentService.save(student1), HttpStatus.OK);
+            if (studentService.checkEmailExist(email,id)) {
+                return new ResponseEntity<>("Email Taken", HttpStatus.BAD_REQUEST);
+            }
+            student.setName(name);
+            student.setDob(dob);
+            student.setTelephone(telephone);
+            student.setEmail(email);
+            student.setProvince(province);
+            student.setDistrict(district);
+            student.setWards(wards);
+            student.setApartmentNumber(apartmentNumber);
+
+                return new ResponseEntity<>(studentService.save(student), HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 

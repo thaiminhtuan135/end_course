@@ -32,4 +32,9 @@ public class AccountServiceImpl implements AccountService{
     public List<Account> getAccounts() {
         return accountRepository.findAll();
     }
+
+    @Override
+    public boolean existAccount(String email) {
+        return accountRepository.findByEmail(email).isPresent();
+    }
 }
