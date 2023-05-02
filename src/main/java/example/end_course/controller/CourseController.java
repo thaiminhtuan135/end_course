@@ -68,7 +68,7 @@ public class CourseController {
         if (!errors.isEmpty()) {
             return ResponseEntity.badRequest().body(errors);
         }
-//        if (!Objects.equals(image.getOriginalFilename(), "")) {
+//        if (!image.isEmpty()) {
 //            course1.setImage(UploadImage.upload(image,"images"));
 //        }
         return new ResponseEntity<>(courseService.save(course1), HttpStatus.CREATED);
@@ -95,13 +95,12 @@ public class CourseController {
                 TypeCourse typeCourse = typeCourseService.getTypeCourseById(typeCourseId).get();
 
 //                if (course1.getImage() == null || course1.getImage().equals("")) {
-//                    if (!Objects.equals(image.getOriginalFilename(), "")) {
+//                    if (!image.isEmpty()) {
 //                        course1.setImage(UploadImage.upload(image,"images"));
 //                    }
 //                } else {
-//                    if (!Objects.equals(image.getOriginalFilename(), ""))
+//                    if (!image.isEmpty())
 //                    {
-//
 //                        Path fileToDelete = CURRENT_FOLDER.resolve(staticPath).resolve(imagePath).resolve(course1.getImage());
 //                        System.out.println(fileToDelete);
 //                        try {
@@ -111,7 +110,6 @@ public class CourseController {
 //                        }
 //                        course1.setImage(UploadImage.upload(image,"images"));
 //                    }
-//
 //                    else {
 //                        Path fileToDelete = Paths.get("src/main/resources/static/" + course1.getImage());
 //                        if (Files.exists(fileToDelete)) {
@@ -134,6 +132,8 @@ public class CourseController {
                 return new ResponseEntity<>(courseService.save(course1), HttpStatus.OK);
             } catch (NoSuchElementException e) {
                 return new ResponseEntity<Course>(HttpStatus.NOT_FOUND);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
 //            catch (IOException e) {
 //                throw new RuntimeException(e);
