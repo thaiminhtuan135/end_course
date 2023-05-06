@@ -17,6 +17,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
 //    @Query( "select s from Student s where s.email = ?1 and s.id <> ?2")
 //    Optional<Student> existsByEmailUpdate(String email,int id);
 
-    @Query("SELECT s FROM Student s WHERE s.email = :email AND (:id IS NULL OR s.id != :id)")
+    @Query("SELECT s FROM Student s WHERE s.email = :email AND (s.id != :id OR :id IS NULL)")
     Optional<Student> existsByEmail(@Param("email") String email, @Param("id") Integer id);
 }

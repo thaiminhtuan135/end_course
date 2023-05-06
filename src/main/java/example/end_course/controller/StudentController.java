@@ -62,10 +62,10 @@ public class StudentController {
                                           @RequestParam String wards ,
                                           @RequestParam Integer apartmentNumber,
                                           @PathVariable Integer id) {
+        if (studentService.checkEmailExist(email,id)) {
+            return new ResponseEntity<>("Email Taken", HttpStatus.BAD_REQUEST);
+        }
         return studentService.getStudentById(id).map(student -> {
-            if (studentService.checkEmailExist(email,id)) {
-                return new ResponseEntity<>("Email Taken", HttpStatus.BAD_REQUEST);
-            }
             student.setName(name);
             student.setDob(dob);
             student.setTelephone(telephone);

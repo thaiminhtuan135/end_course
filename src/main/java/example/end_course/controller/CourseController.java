@@ -132,9 +132,10 @@ public class CourseController {
                 return new ResponseEntity<>(courseService.save(course1), HttpStatus.OK);
             } catch (NoSuchElementException e) {
                 return new ResponseEntity<Course>(HttpStatus.NOT_FOUND);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
+//            catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
 //            catch (IOException e) {
 //                throw new RuntimeException(e);
 //            }
