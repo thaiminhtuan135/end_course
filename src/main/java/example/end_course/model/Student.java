@@ -1,6 +1,7 @@
 package example.end_course.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,6 +28,8 @@ public class Student {
     private String district;
     private String wards;
     private int apartmentNumber;
+    @Nullable
+    private String image;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "student")
     @JsonManagedReference
     private List<Register> registers;
