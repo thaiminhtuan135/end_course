@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @CrossOrigin
-@RequestMapping("admin/topic")
+@RequestMapping("/api/v1/admin/topic")
 public class TopicController {
     @Autowired
     private TopicService topicService;

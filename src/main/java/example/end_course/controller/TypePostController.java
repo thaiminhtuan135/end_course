@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/admin/type-post")
+@RequestMapping("/api/v1/admin/type-post")
 public class TypePostController {
     @Autowired
     private TypePostService typePostService;
