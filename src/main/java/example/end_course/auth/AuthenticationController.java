@@ -35,7 +35,7 @@ public class AuthenticationController {
             }
             return ResponseEntity.ok(authenticationService.register(request,role));
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Role not found",HttpStatus.NOT_FOUND);
         }
 
     }
