@@ -18,11 +18,8 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String name;
-
     private LocalDate createAt;
-
     private String author;
     private String content;
     private String shortContent;

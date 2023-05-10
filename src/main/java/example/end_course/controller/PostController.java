@@ -1,5 +1,6 @@
 package example.end_course.controller;
 
+import example.end_course.DTO.PostDTO;
 import example.end_course.model.Account;
 import example.end_course.model.Post;
 import example.end_course.model.Topic;
@@ -16,10 +17,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/admin/post")
+@RequestMapping("/api/v1/admin/post")
 public class PostController {
     @Autowired
     private PostService postService;
@@ -30,8 +32,25 @@ public class PostController {
     private final com.google.gson.Gson gson = Gson.gson();
 
     @GetMapping("/list")
-    public List<Post> getTypePost() {
-        return postService.getPosts();
+    public List<PostDTO> getPosts() {
+        List<PostDTO> postDTOS = postService.getPosts().stream().map(post -> {
+
+            Account account = accountService.getAccountById(post.getAccount_id()).get();
+            Topic topic = topicService.getTopicById(post.getTopic_id()).get();
+            return PostDTO.builder()
+                    .id(post.getId())
+                    .name(post.getName())
+                    .createAt(post.getCreateAt())
+                    .author(post.getAuthor())
+                    .content(post.getContent())
+                    .shortContent(post.getShortContent())
+                    .accountId(account.getId())
+                    .nickName(account.getNickName())
+                    .topicId(topic.getId())
+                    .topicName(topic.getName())
+                    .build();
+        }).collect(Collectors.toList());
+        return postDTOS;
     }
 
     @PostMapping("/create/topic/{topicId}/account/{accountId}")
