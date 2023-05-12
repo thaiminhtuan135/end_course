@@ -1,6 +1,7 @@
 package example.end_course.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,7 @@ public class Post {
     private LocalDate createAt;
     private String author;
     private String content;
+    @Nullable
     private String shortContent;
     @Column(name = "topic_id", insertable = false, updatable = false)
     private int topic_id;

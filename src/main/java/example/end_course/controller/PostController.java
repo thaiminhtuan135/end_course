@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -53,40 +54,38 @@ public class PostController {
         return postDTOS;
     }
 
-    @PostMapping("/create/topic/{topicId}/account/{accountId}")
-    private ResponseEntity<?> create(@RequestBody String post,
-                                     @PathVariable Integer topicId,
-                                     @PathVariable Integer accountId) {
-
+//    @PostMapping("/create/topic/{topicId}/account/{accountId}")
+    @PostMapping("/create")
+    private ResponseEntity<?> create(
+            @RequestParam String name,
+            @RequestParam String content,
+            @RequestParam(required = false) String shortContent,
+            @RequestParam Integer topicId,
+            @RequestParam Integer accountId
+    ) {
         Optional<Topic> topic = topicService.getTopicById(topicId);
         if (topic.isEmpty()) {
             return new ResponseEntity<>("Topic not found", HttpStatus.NOT_FOUND);
-
         }
         Optional<Account> account = accountService.getAccountById(accountId);
         if (account.isEmpty()) {
             return new ResponseEntity<>("account not found", HttpStatus.NOT_FOUND);
-
         }
 
-        try {
-            Post post1 = gson.fromJson(post, Post.class);
-            post1.setTopic(topic.get());
-            post1.setTopic_id(topicId);
+        Post post = new Post();
+        post.setName(name);
+        post.setAuthor(account.get().getNickName());
+        post.setCreateAt(LocalDate.now());
+        post.setContent(content);
+        post.setShortContent(shortContent);
+        post.setTopic(topic.get());
+        post.setTopic_id(topicId);
 
-            post1.setAccount(account.get());
-            post1.setAccount_id(accountId);
-            return new ResponseEntity<>(postService.save(post1), HttpStatus.CREATED);
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-//        return topicService.getTopicById(topicId).map(topic -> {
-//            Post post1 = gson.fromJson(post, Post.class);
-//            post1.setTopic(topic);
-//            post1.setTopic_id(topic.getId());
-//            return new ResponseEntity<>(postService.save(post1), HttpStatus.OK);
-//        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        post.setAccount(account.get());
+        post.setAccount_id(accountId);
+        System.out.println("succes");
+        ResponseEntity<?> response = new ResponseEntity<>(postService.save(post), HttpStatus.CREATED);
+        return response;
     }
 
     @PutMapping("/{postId}/edit/topic/{topicId}/account/{accountId}")
